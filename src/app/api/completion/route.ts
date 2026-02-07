@@ -2,13 +2,20 @@ import { generateText } from "ai";
 import openRouter from "../../config/open-router.config";
 
 // post route handler for sending messages to OpenRouter
-export async function POST() {
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
+
+  // in case prompt is not provided
+  if (!prompt) {
+    return Response.json({ error: "Prompt is required" }, { status: 400 });
+  }
+
+  // generate text from required model
   try {
     const { text } = await generateText({
-      model: openRouter.chat("openai/gpt-4.1-nano"),
-      prompt: "Explain what an llm is in simple terms",
+      model: openRouter.chat("liquid/lfm-2.5-1.2b-instruct:free"),
+      prompt: prompt,
     });
-    console.log("text", text);
 
     // return the response
     return Response.json({ text });
