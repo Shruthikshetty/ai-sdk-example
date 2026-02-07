@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { ApiErrorResponse } from "../../../../types";
 
 export default function Completion() {
   const [prompt, setPrompt] = useState(""); // user input

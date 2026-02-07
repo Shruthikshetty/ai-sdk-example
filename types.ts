@@ -1,4 +1,4 @@
-interface ApiErrorResponse {
+export interface ApiErrorResponse {
   response?: {
     data?: {
       error?: string;
