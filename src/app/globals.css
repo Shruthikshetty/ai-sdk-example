@@ -24,3 +24,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af transparent;
+  }
+}

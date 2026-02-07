@@ -3,6 +3,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { ApiErrorResponse } from "../../../../types";
+import PageLayout from "@/components/page-layout";
+import SubmitForm from "@/components/submit-form";
+import ErrorMessage from "@/components/error-message";
 
 export default function Completion() {
   const [prompt, setPrompt] = useState(""); // user input
@@ -29,38 +32,26 @@ export default function Completion() {
       );
     } finally {
       setIsLoading(false);
+      // clear the input after submission
+      setPrompt("");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen w-full items-center justify-between p-10">
+    <PageLayout>
       {/* display area for completion  */}
       <div>
-        {error ? <p className="text-red-500">{error}</p> : null}
+        {error ? <ErrorMessage error={error} /> : null}
         {isLoading ? <p>Loading...</p> : null}
         {completion && !isLoading && !error ? <p>{completion}</p> : null}
       </div>
 
-      <form className="border-t border-gray-300 p-2" onSubmit={handleSubmit}>
-        <div className="flex flex-row gap-4">
-          <input
-            type="text"
-            value={prompt}
-            placeholder="Ask a question"
-            className="focus:outline-none rounded p-2"
-            onChange={(e) => {
-              setPrompt(e.target.value);
-            }}
-          />
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="bg-blue-500 p-2 rounded border-gray-600"
-          >
-            Send
-          </button>
-        </div>
-      </form>
-    </div>
+      <SubmitForm
+        prompt={prompt}
+        setPrompt={(e) => setPrompt(e.target.value)}
+        isLoading={isLoading}
+        handleSubmit={handleSubmit}
+      />
+    </PageLayout>
   );
 }
