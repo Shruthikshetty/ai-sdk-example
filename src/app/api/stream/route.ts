@@ -24,6 +24,15 @@ export async function POST(req: Request) {
       prompt,
     });
 
+    // log the token usage
+    result.usage.then((usage) => {
+      console.log("token usage ----->", {
+        inputTokens: usage.inputTokens,
+        outputTokens: usage.outputTokens,
+        totalTokens: usage.totalTokens,
+      });
+    });
+
     return result.toUIMessageStreamResponse();
   } catch (error) {
     return Response.json(
