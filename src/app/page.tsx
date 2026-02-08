@@ -10,8 +10,13 @@ const links = [
     href: "/ui/stream",
     label: "2.Chat app with streaming",
   },
+  {
+    href: "/ui/chat",
+    label: "3.Chat app with chat history",
+  },
 ];
 
+// main landing screen
 export default function Home() {
   return (
     <div className="flex h-screen w-screen p-10 flex-col">
