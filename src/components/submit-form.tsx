@@ -5,12 +5,14 @@ export default function SubmitForm({
   isLoading,
   handleSubmit,
   stop,
+  placeholder = "Ask a question",
 }: {
   prompt: string;
   setPrompt: (prompt: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isLoading: boolean;
   handleSubmit: (e: React.SubmitEvent) => void;
   stop?: () => void;
+  placeholder?: string;
 }) {
   return (
     <form
@@ -20,7 +22,7 @@ export default function SubmitForm({
       <div className="flex flex-row gap-4 w-full items-center justify-center">
         <textarea
           value={prompt}
-          placeholder="Ask a question"
+          placeholder={placeholder}
           className="focus:outline-none rounded p-2 w-[70%] scroll-auto "
           onChange={(e) => {
             setPrompt(e);

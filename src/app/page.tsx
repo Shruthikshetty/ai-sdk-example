@@ -18,6 +18,10 @@ const links = [
     href: "/ui/code-bot",
     label: "4.Chat app with code bot (custom system prompting)",
   },
+  {
+    href: "/ui/structured-data",
+    label: "5.Recipe bot (structured data)",
+  },
 ];
 
 // main landing screen
