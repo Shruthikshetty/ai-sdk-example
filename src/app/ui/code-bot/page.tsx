@@ -6,18 +6,21 @@ import PageLayout from "@/components/page-layout";
 import Spinner from "@/components/spinner";
 import SubmitForm from "@/components/submit-form";
 import { useChat } from "@ai-sdk/react";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { DefaultChatTransport } from "ai";
 
-export default function ChatPage() {
-  // the chat message
-  const [input, setInput] = useState("");
-  // handle chat using hook
-  const { messages, sendMessage, status, error, stop } = useChat({
-    // default api is /api/chat
+export default function CodeBotPage() {
+  // ref used to scroll to end of messages
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  // hold uer input
+  const [prompt, setPrompt] = useState<string>("");
+  // hook to handle chat
+  const { messages, sendMessage, status, stop, error } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/code-bot",
+    }),
     messages: [],
   });
-
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,20 +30,20 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
-  // handle form submit
-  const handleFormSubmit = (e: React.SubmitEvent) => {
+  // form submit handler
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     sendMessage({
-      text: input,
+      text: prompt,
     });
-    // resent input message
-    setInput("");
+    // clear input
+    setPrompt("");
   };
   return (
     <PageLayout>
       <div className="w-full flex-1 flex flex-col overflow-y-auto min-h-0 thin-scroll pr-2">
-        <Header>Chat Page</Header>
-        {/* chat messages */}
+        <Header>Code Bot Page</Header>
+        {/* chat messages  */}
         <ChatMassageList messages={messages} messagesEndRef={messagesEndRef} />
       </div>
       {/* Loading */}
@@ -48,10 +51,10 @@ export default function ChatPage() {
       {/* Error */}
       {error ? <ErrorMessage error={error.message} /> : null}
       <SubmitForm
-        prompt={input}
-        setPrompt={(e) => setInput(e.target.value)}
+        prompt={prompt}
+        setPrompt={(e) => setPrompt(e.target.value)}
         isLoading={status != "ready"}
-        handleSubmit={handleFormSubmit}
+        handleSubmit={handleSubmit}
         stop={stop}
       />
     </PageLayout>

@@ -28,6 +28,7 @@ export default function SubmitForm({
         />
         {stop && isLoading ? (
           <button
+            type="button"
             onClick={stop}
             className="bg-red-500 p-2 rounded border-gray-600"
           >

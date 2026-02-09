@@ -14,6 +14,10 @@ const links = [
     href: "/ui/chat",
     label: "3.Chat app with chat history",
   },
+  {
+    href: "/ui/code-bot",
+    label: "4.Chat app with code bot (custom system prompting)",
+  },
 ];
 
 // main landing screen
