@@ -26,6 +26,10 @@ const links = [
     href: "/ui/structured-array",
     label: "6.Pokemon bot (structured array)",
   },
+  {
+    href: "/ui/structured-enum",
+    label: "7.Sentiment analysis (structured enum)",
+  },
 ];
 
 // main landing screen
