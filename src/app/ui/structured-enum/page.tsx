@@ -56,7 +56,7 @@ export default function StructuredEnumPage() {
         prompt={prompt}
         setPrompt={(e) => setPrompt(e.target.value)}
         isLoading={isLoading}
-        placeholder="type you sentence to be classified"
+        placeholder="type your sentence to be classified"
         handleSubmit={handleSubmit}
       />
     </PageLayout>

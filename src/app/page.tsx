@@ -30,6 +30,10 @@ const links = [
     href: "/ui/structured-enum",
     label: "7.Sentiment analysis (structured enum)",
   },
+  {
+    href: "/ui/multi-modal-chat",
+    label: "8.Multi modal chat",
+  },
 ];
 
 // main landing screen

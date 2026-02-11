@@ -1,5 +1,6 @@
 import { UIMessage } from "ai";
 import { Ref } from "react";
+import Image from "next/image";
 
 export default function ChatMassageList({
   messages,
@@ -29,6 +30,18 @@ export default function ChatMassageList({
                     >
                       {part.text}
                     </p>
+                  );
+                case "file":
+                  if (part.mediaType?.startsWith("image/"))
+                    console.log(part?.url);
+                  return (
+                    <Image
+                      key={`${messages.id}-${index}`}
+                      src={part.url}
+                      alt={part.filename ?? `attachment-${index}`}
+                      width={500}
+                      height={500}
+                    />
                   );
                 default:
                   return "";
