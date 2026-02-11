@@ -34,6 +34,10 @@ const links = [
     href: "/ui/multi-modal-chat",
     label: "8.Multi modal chat",
   },
+  {
+    href: "/ui/generate-image",
+    label: "9.Generate image",
+  },
 ];
 
 // main landing screen
