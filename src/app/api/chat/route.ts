@@ -1,12 +1,15 @@
 import { UIMessage, streamText, convertToModelMessages } from "ai";
-import openRouter from "@/app/config/open-router.config";
+import { Providers } from "../../../../types";
+import { modelProviderToggleChat } from "@/utils/model-provider-toggle";
 
 export async function POST(req: Request) {
   // destructure messages from request body
   const {
     messages = [],
+    provider = "openrouter",
   }: {
     messages: UIMessage[];
+    provider?: Providers;
   } = await req.json();
 
   if (messages.length === 0) {
@@ -23,7 +26,7 @@ export async function POST(req: Request) {
   try {
     // stream the response from ai model
     const result = streamText({
-      model: openRouter.chat("openai/gpt-4.1-nano"),
+      model: modelProviderToggleChat(provider),
       messages: await convertToModelMessages(messages),
     });
     // log the token usage

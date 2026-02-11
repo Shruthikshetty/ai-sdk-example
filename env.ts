@@ -8,6 +8,7 @@ const EnvSchema = z.object({
       error: "OPENROUTER_API_KEY is required",
     })
     .min(1),
+  GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
 });
 
 // infer the env type

@@ -6,3 +6,5 @@ export interface ApiErrorResponse {
   };
   message?: string;
 }
+
+export type Providers = "openrouter" | "google";
