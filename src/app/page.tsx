@@ -22,6 +22,10 @@ const links = [
     href: "/ui/structured-data",
     label: "5.Recipe bot (structured data)",
   },
+  {
+    href: "/ui/structured-array",
+    label: "6.Pokemon bot (structured array)",
+  },
 ];
 
 // main landing screen
