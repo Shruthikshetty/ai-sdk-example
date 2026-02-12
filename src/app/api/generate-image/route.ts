@@ -1,5 +1,4 @@
-import openRouter from "@/app/config/open-router.config";
-import { generateText } from "ai";
+import { generateImage, gateway } from "ai";
 
 export async function POST(request: Request) {
   const { prompt } = await request.json();
@@ -7,34 +6,28 @@ export async function POST(request: Request) {
     return Response.json({ error: "Prompt is required" }, { status: 400 });
   }
   try {
-    // const { image } = await generateImage({
-    //   model: google.image("imagen-4.0-flash-generate-001"),
-    //   prompt,
-    //   size: "1024x1024",
+    const { image } = await generateImage({
+      model: gateway.image("google/imagen-4.0-fast-generate-001"),
+      prompt,
+    });
+
+    // open router works differently here (dose not follow open ai standers hance we dont use it for image generation)
+    // const result = await generateText({
+    //   model: openRouter.chat("black-forest-labs/flux.2-klein-4b"),
+    //   prompt: prompt,
     //   providerOptions: {
-    //     google: {
+    //     openrouter: {
     //       modalities: ["image"],
     //     },
     //   },
     // });
 
-    // open router works differently here
-    const result = await generateText({
-      model: openRouter.chat("black-forest-labs/flux.2-klein-4b"),
-      prompt: prompt,
-      providerOptions: {
-        openrouter: {
-          modalities: ["image"],
-        },
-      },
-    });
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const imageUrl = (result.response.messages[0].content[0] as any)?.data;
+    //const imageUrl = (result.response.messages[0].content[0] as any)?.data;
 
     // return the image as base 64
     return Response.json({
-      image: imageUrl,
+      image: image.base64,
     });
   } catch (error) {
     console.log(error);

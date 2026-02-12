@@ -3,12 +3,10 @@ import { z } from "zod";
 
 // create a env schema
 const EnvSchema = z.object({
-  OPEN_ROUTER_KEY: z
-    .string({
-      error: "OPENROUTER_API_KEY is required",
-    })
-    .min(1),
-  GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
+  OPEN_ROUTER_KEY: z.string().optional().default(""),
+  GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional().default(""),
+  GROQ_API_KEY: z.string().optional().default(""),
+  AI_GATEWAY_API_KEY: z.string().optional().default(""),
 });
 
 // infer the env type
