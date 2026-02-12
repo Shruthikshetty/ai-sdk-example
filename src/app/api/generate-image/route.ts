@@ -1,5 +1,5 @@
 import openRouter from "@/app/config/open-router.config";
-import { generateImage, generateText } from "ai";
+import { generateText } from "ai";
 
 export async function POST(request: Request) {
   const { prompt } = await request.json();
@@ -8,15 +8,12 @@ export async function POST(request: Request) {
   }
   try {
     // const { image } = await generateImage({
-    //   model: openRouter.imageModel("black-forest-labs/flux-schnell"),
+    //   model: google.image("imagen-4.0-flash-generate-001"),
     //   prompt,
     //   size: "1024x1024",
     //   providerOptions: {
-    //     openRouter: {
-    //       //   style: "vivid",
-    //       //   quality: "hd",
-    //       modalities: ["image", "text"],
-    //       stream: false,
+    //     google: {
+    //       modalities: ["image"],
     //     },
     //   },
     // });

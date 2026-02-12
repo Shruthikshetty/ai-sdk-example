@@ -14,8 +14,6 @@ export default function GenerateImagePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  console.log(JSON.stringify(imgSrc, null, 2));
-
   // handle form submission
   const handleSubmit = async (e: React.SubmitEvent) => {
     // prevent default form submission

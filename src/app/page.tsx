@@ -38,6 +38,10 @@ const links = [
     href: "/ui/generate-image",
     label: "9.Generate image",
   },
+  {
+    href: "/ui/transcribe-audio",
+    label: "10.Transcribe audio",
+  },
 ];
 
 // main landing screen
