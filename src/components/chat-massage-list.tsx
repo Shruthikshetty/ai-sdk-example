@@ -1,12 +1,12 @@
-import { UIMessage } from "ai";
 import { Ref } from "react";
 import Image from "next/image";
+import { ChatMessage } from "@/app/api/tools/route";
 
 export default function ChatMassageList({
   messages,
   messagesEndRef,
 }: {
-  messages: UIMessage[];
+  messages: ChatMessage[];
   messagesEndRef?: Ref<HTMLDivElement>;
 }) {
   return (
@@ -31,6 +31,64 @@ export default function ChatMassageList({
                       {part.text}
                     </p>
                   );
+                case "tool-getWeather":
+                  switch (part.state) {
+                    case "input-streaming":
+                      return (
+                        <div
+                          key={`${messages.id}-getWeather-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Receiving weather request...
+                          </p>
+                          <pre className="text-xs text-zinc-600 mt-1">
+                            {JSON.stringify(part.input, null, 2)}
+                          </pre>
+                        </div>
+                      );
+
+                    case "input-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getWeather-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Getting Weather for {part.input?.city}...
+                          </p>
+                        </div>
+                      );
+
+                    case "output-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getWeather-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Weather for{" "}
+                            <b>
+                              {part.input?.city}: {part.output}
+                            </b>
+                          </p>
+                        </div>
+                      );
+
+                    case "output-error":
+                      return (
+                        <div
+                          key={`${messages.id}-getWeather-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-red-500">
+                            Error : {part.errorText}
+                          </p>
+                        </div>
+                      );
+                    default:
+                      return null;
+                  }
                 case "file":
                   if (part.mediaType?.startsWith("image/")) {
                     return (

@@ -10,13 +10,14 @@ import { providerList } from "@/utils/provider-list";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useState, useRef, useEffect } from "react";
+import { ChatMessage } from "@/app/api/tools/route";
 
 export default function ToolsPage() {
   // the chat message
   const [input, setInput] = useState("");
   const [selectedModel, setSelectedModel] = useState("openrouter");
   // handle chat using hook
-  const { messages, sendMessage, status, error, stop } = useChat({
+  const { messages, sendMessage, status, error, stop } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
       api: "/api/tools",
     }),
