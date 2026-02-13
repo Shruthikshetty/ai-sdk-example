@@ -7,4 +7,4 @@ export interface ApiErrorResponse {
   message?: string;
 }
 
-export type Providers = "openrouter" | "google" | "groq" | "gateway";
+export type Providers = "openrouter" | "google" | "groq" | "gateway" | "openai";

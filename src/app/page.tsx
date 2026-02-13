@@ -42,6 +42,10 @@ const links = [
     href: "/ui/transcribe-audio",
     label: "10.Transcribe audio",
   },
+  {
+    href: "/ui/generate-speech",
+    label: "11.Generate speech",
+  },
 ];
 
 // main landing screen
