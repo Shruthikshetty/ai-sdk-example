@@ -46,6 +46,10 @@ const links = [
     href: "/ui/generate-speech",
     label: "11.Generate speech",
   },
+  {
+    href: "/ui/tools",
+    label: "12.Tools chat",
+  },
 ];
 
 // main landing screen
