@@ -50,6 +50,10 @@ const links = [
     href: "/ui/tools",
     label: "12.Tools chat",
   },
+  {
+    href: "/ui/api-tools",
+    label: "13.API Tools chat (real weather data)",
+  },
 ];
 
 // main landing screen

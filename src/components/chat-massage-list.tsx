@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Ref } from "react";
 import Image from "next/image";
 import { ChatMessage } from "@/app/api/tools/route";
@@ -67,11 +68,23 @@ export default function ChatMassageList({
                           className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
                         >
                           <p className="text-sm text-zinc-500">
-                            Weather for{" "}
-                            <b>
-                              {part.input?.city}: {part.output}
-                            </b>
+                            Weather for <b>{part.input?.city}</b>
                           </p>
+                          <div>
+                            {/* @ts-expect-error */}
+                            {part.output?.location && part.output?.current && (
+                              <>
+                                {/* @ts-expect-error */}
+                                <p>{part.output?.location?.name}</p>
+                                {/* @ts-expect-error */}
+                                <p>{part.output?.location?.country}</p>
+                                {/* @ts-expect-error */}
+                                <p>{part.output?.location?.localtime}</p>
+                                {/* @ts-expect-error */}
+                                <p>{part.output?.current?.condition?.text}</p>
+                              </>
+                            )}
+                          </div>
                         </div>
                       );
 

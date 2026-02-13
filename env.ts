@@ -7,6 +7,7 @@ const EnvSchema = z.object({
   GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional().default(""),
   GROQ_API_KEY: z.string().optional().default(""),
   AI_GATEWAY_API_KEY: z.string().optional().default(""),
+  WEATHER_API_KEY: z.string(),
 });
 
 // infer the env type
