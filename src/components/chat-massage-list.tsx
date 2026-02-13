@@ -2,6 +2,7 @@
 import { Ref } from "react";
 import Image from "next/image";
 import { ChatMessage } from "@/app/api/tools/route";
+import WeatherCard, { WeatherDataType } from "@/app/ui/api-tools/weather-card";
 
 export default function ChatMassageList({
   messages,
@@ -20,7 +21,7 @@ export default function ChatMassageList({
           <p className="font-bold mb-2">
             {messages.role === "user" ? "You" : "AI"}
           </p>
-          <div>
+          <div className="flex flex-col gap-2">
             {messages.parts.map((part, index) => {
               switch (part.type) {
                 case "text":
@@ -62,32 +63,29 @@ export default function ChatMassageList({
                       );
 
                     case "output-available":
-                      return (
-                        <div
-                          key={`${messages.id}-getWeather-${index}`}
-                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
-                        >
-                          <p className="text-sm text-zinc-500">
-                            Weather for <b>{part.input?.city}</b>
-                          </p>
-                          <div>
-                            {/* @ts-expect-error */}
-                            {part.output?.location && part.output?.current && (
-                              <>
-                                {/* @ts-expect-error */}
-                                <p>{part.output?.location?.name}</p>
-                                {/* @ts-expect-error */}
-                                <p>{part.output?.location?.country}</p>
-                                {/* @ts-expect-error */}
-                                <p>{part.output?.location?.localtime}</p>
-                                {/* @ts-expect-error */}
-                                <p>{part.output?.current?.condition?.text}</p>
-                              </>
-                            )}
+                      // @ts-ignore
+                      if (part.output?.location && part.output?.current) {
+                        return (
+                          <WeatherCard
+                            key={`${messages.id}-getWeather-${index}`}
+                            weatherData={part.output as WeatherDataType}
+                          />
+                        );
+                      } else {
+                        return (
+                          <div
+                            key={`${messages.id}-getWeather-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Weather for{" "}
+                              <b>
+                                {part.input?.city}: {part.output}
+                              </b>
+                            </p>
                           </div>
-                        </div>
-                      );
-
+                        );
+                      }
                     case "output-error":
                       return (
                         <div
