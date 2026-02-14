@@ -44,10 +44,22 @@ export async function POST(req: Request) {
       model: openai.responses("gpt-5-mini"),
       messages: await convertToModelMessages(messages),
       tools: tools,
+      // way to use search using open router
+      // providerOptions: {
+      //   openrouter: {
+      //     plugins: [
+      //       {
+      //         id: "web",
+      //         max_results: 2,
+      //         engine: "exa",
+      //       },
+      //     ],
+      //   },
+      // },
       stopWhen: stepCountIs(2),
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({ sendSources: true });
   } catch (error) {
     return Response.json(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
