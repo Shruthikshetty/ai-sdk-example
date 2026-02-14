@@ -58,6 +58,10 @@ const links = [
     href: "/ui/multiple-tool",
     label: "14.Multiple Tools chat",
   },
+  {
+    href: "/ui/web-search-tool",
+    label: "15.Web Search Tool chat",
+  },
 ];
 
 // main landing screen

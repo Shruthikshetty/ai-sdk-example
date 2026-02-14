@@ -3,12 +3,13 @@ import { Ref } from "react";
 import Image from "next/image";
 import { ChatMessage } from "@/app/api/multiple-tool/route";
 import WeatherCard, { WeatherDataType } from "@/app/ui/api-tools/weather-card";
+import { ChatSearchMessage } from "@/app/api/web-search-tool/route";
 
 export default function ChatMassageList({
   messages,
   messagesEndRef,
 }: {
-  messages: ChatMessage[];
+  messages: ChatMessage[] | ChatSearchMessage[];
   messagesEndRef?: Ref<HTMLDivElement>;
 }) {
   return (
@@ -156,6 +157,55 @@ export default function ChatMassageList({
                   }
                   return null;
 
+                case "tool-web_search_preview":
+                  switch (part.state) {
+                    case "input-streaming":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            ⏳ Preparing to search
+                          </p>
+                        </div>
+                      );
+                    case "input-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            🔎 Searching the web...
+                          </p>
+                        </div>
+                      );
+                    case "output-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            ✅ Web search complete
+                          </p>
+                        </div>
+                      );
+                    case "output-error":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-red-500">
+                            Error web search failed : {part.errorText}
+                          </p>
+                        </div>
+                      );
+                  }
+
+                  return null;
                 case "file":
                   if (part.mediaType?.startsWith("image/")) {
                     return (
