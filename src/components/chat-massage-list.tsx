@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Ref } from "react";
 import Image from "next/image";
-import { ChatMessage } from "@/app/api/tools/route";
+import { ChatMessage } from "@/app/api/multiple-tool/route";
 import WeatherCard, { WeatherDataType } from "@/app/ui/api-tools/weather-card";
 
 export default function ChatMassageList({
@@ -100,6 +100,62 @@ export default function ChatMassageList({
                     default:
                       return null;
                   }
+                case "tool-getLocation":
+                  switch (part.state) {
+                    case "input-streaming":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Receiving location request...
+                          </p>
+                          <pre className="text-xs text-zinc-600 mt-1">
+                            {JSON.stringify(part.input, null, 2)}
+                          </pre>
+                        </div>
+                      );
+                    case "input-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Getting location for {part.input?.name}...
+                          </p>
+                        </div>
+                      );
+                    case "output-available":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-zinc-500">
+                            Location for{" "}
+                            <b>
+                              {part.input?.name}: {part.output}
+                            </b>
+                          </p>
+                        </div>
+                      );
+
+                    case "output-error":
+                      return (
+                        <div
+                          key={`${messages.id}-getLocation-${index}`}
+                          className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                        >
+                          <p className="text-sm text-red-500">
+                            Error : {part.errorText}
+                          </p>
+                        </div>
+                      );
+                  }
+                  return null;
+
                 case "file":
                   if (part.mediaType?.startsWith("image/")) {
                     return (
