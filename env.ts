@@ -2,12 +2,22 @@
 import { z } from "zod";
 
 // create a env schema
+const isServer = typeof window === "undefined";
+
+// create a env schema
 const EnvSchema = z.object({
   OPEN_ROUTER_KEY: z.string().optional().default(""),
   GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional().default(""),
   GROQ_API_KEY: z.string().optional().default(""),
   AI_GATEWAY_API_KEY: z.string().optional().default(""),
-  WEATHER_API_KEY: z.string(),
+  WEATHER_API_KEY: isServer
+    ? z.string().min(1)
+    : z.string().optional().default(""),
+  NEXT_PUBLIC_IMAGE_KIT_URL: z.string(),
+  NEXT_PUBLIC_IMAGE_PUBLIC_KEY: z.string(),
+  IMAGEKIT_PRIVATE_KEY: isServer
+    ? z.string().min(1)
+    : z.string().optional().default(""),
 });
 
 // infer the env type
@@ -16,7 +26,16 @@ type ENV = z.infer<typeof EnvSchema>;
 let tempEnv: ENV;
 
 try {
-  tempEnv = EnvSchema.parse(process.env);
+  tempEnv = EnvSchema.parse({
+    OPEN_ROUTER_KEY: process.env.OPEN_ROUTER_KEY,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
+    AI_GATEWAY_API_KEY: process.env.AI_GATEWAY_API_KEY,
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    NEXT_PUBLIC_IMAGE_KIT_URL: process.env.NEXT_PUBLIC_IMAGE_KIT_URL,
+    NEXT_PUBLIC_IMAGE_PUBLIC_KEY: process.env.NEXT_PUBLIC_IMAGE_PUBLIC_KEY,
+    IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
+  });
 } catch (err) {
   const error = err as z.ZodError;
   console.error("Invalid environment variables: ", z.flattenError(error));

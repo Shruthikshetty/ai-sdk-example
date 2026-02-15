@@ -66,6 +66,10 @@ const links = [
     href: "/ui/generate-image-tool",
     label: "16.Generate Image Tool chat",
   },
+  {
+    href: "/ui/client-side-tools",
+    label: "17.Client Side Tools chat (image transform)",
+  },
 ];
 
 // main landing screen

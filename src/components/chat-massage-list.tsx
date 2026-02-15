@@ -6,13 +6,21 @@ import WeatherCard, { WeatherDataType } from "@/app/ui/api-tools/weather-card";
 import { ChatSearchMessage } from "@/app/api/web-search-tool/route";
 import { Paperclip } from "lucide-react";
 import { ChatImageToolMessages } from "@/app/api/generate-image-tool/route";
-
+import { Image as ImageKitImage } from "@imagekit/next";
+import env from "../../env";
+import { ChatImageKitToolMessages } from "@/app/api/client-side-tools/route";
 export default function ChatMassageList({
   messages,
   messagesEndRef,
+  useImageKit = false,
 }: {
-  messages: ChatMessage[] | ChatSearchMessage[] | ChatImageToolMessages[];
+  messages:
+    | ChatMessage[]
+    | ChatSearchMessage[]
+    | ChatImageToolMessages[]
+    | ChatImageKitToolMessages[];
   messagesEndRef?: Ref<HTMLDivElement>;
+  useImageKit?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-4 w-full grow pb-4 ">
@@ -295,13 +303,24 @@ export default function ChatMassageList({
                             <h1 className="text-sm text-zinc-500">
                               Generated image
                             </h1>
-                            <Image
-                              src={`${part.output.url}`}
-                              alt="generated image"
-                              width={500}
-                              height={500}
-                              className="rounded-lg"
-                            />
+                            {useImageKit ? (
+                              <ImageKitImage
+                                src={part.output.url}
+                                urlEndpoint={env.NEXT_PUBLIC_IMAGE_KIT_URL}
+                                alt="generated image"
+                                width={500}
+                                height={500}
+                                className="rounded-lg"
+                              />
+                            ) : (
+                              <Image
+                                src={`${part.output.url}`}
+                                alt="generated image"
+                                width={500}
+                                height={500}
+                                className="rounded-lg"
+                              />
+                            )}
                           </div>
                         );
                       case "output-error":
@@ -321,6 +340,101 @@ export default function ChatMassageList({
                     }
                   default:
                     return "";
+
+                  case "tool-changeBackground":
+                    switch (part.state) {
+                      case "input-available":
+                        return (
+                          <div
+                            key={`${message.id}-trans-changeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              changing background to : {part.input.prompt}
+                            </p>
+                          </div>
+                        );
+                      case "output-available":
+                        return (
+                          <div
+                            key={`${message.id}-trans-changeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              changed background to : {part.input.prompt}
+                            </p>
+                            <ImageKitImage
+                              src={part.output}
+                              urlEndpoint={env.NEXT_PUBLIC_IMAGE_KIT_URL}
+                              alt="generated image"
+                              width={500}
+                              height={500}
+                              className="rounded-lg"
+                            />
+                          </div>
+                        );
+                      case "output-error":
+                        console.log(part.errorText);
+                        return (
+                          <div
+                            key={`${message.id}-trans-changeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-red-500">
+                              Error generating image : {part.errorText}
+                            </p>
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
+                  case "tool-removeBackground":
+                    switch (part.state) {
+                      case "input-available":
+                        return (
+                          <div
+                            key={`${message.id}-trans-removeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              removing background
+                            </p>
+                          </div>
+                        );
+                      case "output-available":
+                        return (
+                          <div
+                            key={`${message.id}-trans-removeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Removed background image from {part.output}
+                            </p>
+                            <ImageKitImage
+                              src={part.output}
+                              urlEndpoint={env.NEXT_PUBLIC_IMAGE_KIT_URL}
+                              alt="generated image"
+                              width={500}
+                              height={500}
+                              className="rounded-lg"
+                            />
+                          </div>
+                        );
+                      case "output-error":
+                        console.log(part.errorText);
+                        return (
+                          <div
+                            key={`${message.id}-trans-removeBackground-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-red-500">
+                              Error generating image : {part.errorText}
+                            </p>
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
                 }
               })}
             </div>
