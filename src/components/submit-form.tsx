@@ -35,8 +35,12 @@ export default function SubmitForm({
         {stop && isLoading ? (
           <button
             type="button"
-            onClick={stop}
-            className="bg-red-500 p-2 rounded border-gray-600"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              stop();
+            }}
+            className="bg-red-500 text-white p-2 rounded border-gray-600"
           >
             Stop
           </button>
@@ -44,7 +48,7 @@ export default function SubmitForm({
           <button
             disabled={isLoading}
             type="submit"
-            className="bg-blue-500 p-2 rounded border-gray-600"
+            className="bg-blue-500 text-white p-2 rounded border-gray-600"
           >
             Send
           </button>
@@ -115,8 +119,12 @@ export function FileForm({
         {stop && isLoading ? (
           <button
             type="button"
-            onClick={() => stop()}
-            className="bg-red-500 p-2 rounded border-gray-600"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              stop?.();
+            }}
+            className="bg-red-500 text-white p-2 rounded border-gray-600"
           >
             Stop
           </button>
@@ -124,7 +132,7 @@ export function FileForm({
           <button
             disabled={isLoading}
             type="submit"
-            className="bg-blue-500 p-2 rounded border-gray-600 hover:bg-blue-600 transition-colors"
+            className="bg-blue-500 text-white p-2 rounded border-gray-600 hover:bg-blue-600 transition-colors"
           >
             Send
           </button>

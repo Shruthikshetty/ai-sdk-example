@@ -8,15 +8,18 @@ import Spinner from "@/components/spinner";
 import SubmitForm from "@/components/submit-form";
 import { providerList } from "@/utils/provider-list";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { useState, useRef, useEffect } from "react";
 
-export default function ChatPage() {
+export default function ChatReasoningPage() {
   // the chat message
   const [input, setInput] = useState("");
   const [selectedModel, setSelectedModel] = useState("openrouter");
   // handle chat using hook
   const { messages, sendMessage, status, error, stop } = useChat({
-    // default api is /api/chat
+    transport: new DefaultChatTransport({
+      api: "/api/reasoning",
+    }),
     messages: [],
   });
 
@@ -47,14 +50,18 @@ export default function ChatPage() {
   return (
     <PageLayout>
       <div className="w-full flex-1 flex flex-col overflow-y-auto min-h-0 thin-scroll pr-2">
-        <Header>Chat Page</Header>
+        <Header>Chat with reasoning Page</Header>
         <ModelToggleButtons
           buttons={providerList}
           selected={selectedModel}
           setSelected={setSelectedModel}
         />
         {/* chat messages */}
-        <ChatMassageList messages={messages} messagesEndRef={messagesEndRef} />
+        <ChatMassageList
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          messages={messages as any}
+          messagesEndRef={messagesEndRef}
+        />
       </div>
       {/* Loading */}
       {status === "submitted" || status === "streaming" ? <Spinner /> : null}

@@ -41,6 +41,15 @@ export default function ChatMassageList({
             <div className="flex flex-col gap-2">
               {message.parts.map((part, index) => {
                 switch (part.type) {
+                  case "reasoning":
+                    return (
+                      <div
+                        key={`${message.id}-${index}`}
+                        className="text-sm text-blue-500"
+                      >
+                        <p>Reasoning: {part.text}</p>
+                      </div>
+                    );
                   case "text":
                     return (
                       <p

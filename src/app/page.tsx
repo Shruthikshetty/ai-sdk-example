@@ -74,6 +74,10 @@ const links = [
     href: "/ui/mcp-tools",
     label: "18.MCP Tools chat",
   },
+  {
+    href: "/ui/reasoning",
+    label: "19.chat with reasoning",
+  },
 ];
 
 // main landing screen
