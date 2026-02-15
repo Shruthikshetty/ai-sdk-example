@@ -6,4 +6,5 @@ export const providerList: Providers[] = [
   "groq",
   "gateway",
   "openai",
+  "ollama",
 ];

@@ -4,6 +4,7 @@ import openRouter from "@/app/config/open-router.config";
 import { groq } from "@ai-sdk/groq";
 import { gateway } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { ollama } from "ollama-ai-provider-v2";
 
 export const modelProviderToggleChat = (
   provider: Providers,
@@ -18,6 +19,8 @@ export const modelProviderToggleChat = (
       return gateway(model ?? "openai/gpt-4.1-nano");
     case "openai":
       return openai(model ?? "gpt-5-mini");
+    case "ollama":
+      return ollama(model ?? "deepseek-r1:14b");
     case "openrouter":
     default:
       return openRouter.chat(model ?? "openai/gpt-4.1-nano");
