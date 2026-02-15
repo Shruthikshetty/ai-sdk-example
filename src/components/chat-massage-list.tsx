@@ -5,12 +5,13 @@ import { ChatMessage } from "@/app/api/multiple-tool/route";
 import WeatherCard, { WeatherDataType } from "@/app/ui/api-tools/weather-card";
 import { ChatSearchMessage } from "@/app/api/web-search-tool/route";
 import { Paperclip } from "lucide-react";
+import { ChatImageToolMessages } from "@/app/api/generate-image-tool/route";
 
 export default function ChatMassageList({
   messages,
   messagesEndRef,
 }: {
-  messages: ChatMessage[] | ChatSearchMessage[];
+  messages: ChatMessage[] | ChatSearchMessage[] | ChatImageToolMessages[];
   messagesEndRef?: Ref<HTMLDivElement>;
 }) {
   return (
@@ -261,6 +262,63 @@ export default function ChatMassageList({
                     }
                     return null;
 
+                  case "tool-generateImage":
+                    switch (part.state) {
+                      case "input-streaming":
+                        return (
+                          <div
+                            key={`${message.id}-gen-image-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              ⏳ receiving image generation prompt
+                            </p>
+                          </div>
+                        );
+                      case "input-available":
+                        return (
+                          <div
+                            key={`${message.id}-gen-image-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Generating image for {part.input.prompt}
+                            </p>
+                          </div>
+                        );
+                      case "output-available":
+                        return (
+                          <div
+                            key={`${message.id}-gen-image-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <h1 className="text-sm text-zinc-500">
+                              Generated image
+                            </h1>
+                            <Image
+                              src={`${part.output.url}`}
+                              alt="generated image"
+                              width={500}
+                              height={500}
+                              className="rounded-lg"
+                            />
+                          </div>
+                        );
+                      case "output-error":
+                        console.log(part.errorText);
+                        return (
+                          <div
+                            key={`${message.id}-gen-image-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-red-500">
+                              Error generating image : {part.errorText}
+                            </p>
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
                   default:
                     return "";
                 }

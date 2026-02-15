@@ -62,6 +62,10 @@ const links = [
     href: "/ui/web-search-tool",
     label: "15.Web Search Tool chat",
   },
+  {
+    href: "/ui/generate-image-tool",
+    label: "16.Generate Image Tool chat",
+  },
 ];
 
 // main landing screen
