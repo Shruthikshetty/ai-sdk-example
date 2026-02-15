@@ -70,6 +70,10 @@ const links = [
     href: "/ui/client-side-tools",
     label: "17.Client Side Tools chat (image transform)",
   },
+  {
+    href: "/ui/mcp-tools",
+    label: "18.MCP Tools chat",
+  },
 ];
 
 // main landing screen

@@ -18,6 +18,10 @@ const EnvSchema = z.object({
   IMAGEKIT_PRIVATE_KEY: isServer
     ? z.string().min(1)
     : z.string().optional().default(""),
+  MCP_URL: isServer ? z.string().min(1) : z.string().optional().default(""),
+  MCP_AUTH_TOKEN: isServer
+    ? z.string().min(1)
+    : z.string().optional().default(""),
 });
 
 // infer the env type
@@ -27,14 +31,18 @@ let tempEnv: ENV;
 
 try {
   tempEnv = EnvSchema.parse({
-    OPEN_ROUTER_KEY: process.env.OPEN_ROUTER_KEY,
-    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-    GROQ_API_KEY: process.env.GROQ_API_KEY,
-    AI_GATEWAY_API_KEY: process.env.AI_GATEWAY_API_KEY,
-    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
-    NEXT_PUBLIC_IMAGE_KIT_URL: process.env.NEXT_PUBLIC_IMAGE_KIT_URL,
-    NEXT_PUBLIC_IMAGE_PUBLIC_KEY: process.env.NEXT_PUBLIC_IMAGE_PUBLIC_KEY,
-    IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
+    OPEN_ROUTER_KEY: process.env.OPEN_ROUTER_KEY?.trim(),
+    GOOGLE_GENERATIVE_AI_API_KEY:
+      process.env.GOOGLE_GENERATIVE_AI_API_KEY?.trim(),
+    GROQ_API_KEY: process.env.GROQ_API_KEY?.trim(),
+    AI_GATEWAY_API_KEY: process.env.AI_GATEWAY_API_KEY?.trim(),
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY?.trim(),
+    NEXT_PUBLIC_IMAGE_KIT_URL: process.env.NEXT_PUBLIC_IMAGE_KIT_URL?.trim(),
+    NEXT_PUBLIC_IMAGE_PUBLIC_KEY:
+      process.env.NEXT_PUBLIC_IMAGE_PUBLIC_KEY?.trim(),
+    IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY?.trim(),
+    MCP_URL: process.env.MCP_URL?.trim(),
+    MCP_AUTH_TOKEN: process.env.MCP_AUTH_TOKEN?.trim(),
   });
 } catch (err) {
   const error = err as z.ZodError;

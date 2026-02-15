@@ -9,6 +9,7 @@ import { ChatImageToolMessages } from "@/app/api/generate-image-tool/route";
 import { Image as ImageKitImage } from "@imagekit/next";
 import env from "../../env";
 import { ChatImageKitToolMessages } from "@/app/api/client-side-tools/route";
+import { ChatMCPMessage } from "@/app/api/mcp-tools/route";
 export default function ChatMassageList({
   messages,
   messagesEndRef,
@@ -18,7 +19,8 @@ export default function ChatMassageList({
     | ChatMessage[]
     | ChatSearchMessage[]
     | ChatImageToolMessages[]
-    | ChatImageKitToolMessages[];
+    | ChatImageKitToolMessages[]
+    | ChatMCPMessage[];
   messagesEndRef?: Ref<HTMLDivElement>;
   useImageKit?: boolean;
 }) {
@@ -115,6 +117,65 @@ export default function ChatMassageList({
                       default:
                         return null;
                     }
+                  case "dynamic-tool":
+                    switch (part.state) {
+                      case "input-streaming":
+                        return (
+                          <div
+                            key={`${message.id}-dynamic-tool-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Dynamic tool request...
+                            </p>
+                            <pre className="text-xs text-zinc-600 mt-1">
+                              {JSON.stringify(part.input, null, 2)}
+                            </pre>
+                          </div>
+                        );
+                      case "input-available":
+                        return (
+                          <div
+                            key={`${message.id}-dynamic-tool-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Fetching stock price
+                            </p>
+                            <pre className="text-xs text-zinc-600 mt-1">
+                              {JSON.stringify(part.input, null, 2)}
+                            </pre>
+                          </div>
+                        );
+                      case "output-available":
+                        return (
+                          <div
+                            key={`${message.id}-dynamic-tool-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-zinc-500">
+                              Stock price for retrieved
+                            </p>
+                            <pre className="text-xs text-zinc-600 mt-1">
+                              {JSON.stringify(part.input, null, 2)}
+                            </pre>
+                          </div>
+                        );
+                      case "output-error":
+                        return (
+                          <div
+                            key={`${message.id}-dynamic-tool-${index}`}
+                            className=" p-2 rounded-sm border-zinc-200 bg-zinc-800/50"
+                          >
+                            <p className="text-sm text-red-500">
+                              Error : {part.errorText}
+                            </p>
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
+
                   case "tool-getLocation":
                     switch (part.state) {
                       case "input-streaming":

@@ -28,3 +28,5 @@ This project demonstrates how to build AI-powered applications using the [Vercel
 - **useChat Hook**: [useChat Documentation](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat)
 - **UI Messages**: [UIMessage Reference](https://ai-sdk.dev/docs/reference/ai-sdk-core/ui-message#uimessage)
 - **Prompt Engineering**: [Prompt Engineering Guide 1](https://platform.openai.com/docs/guides/prompt-engineering) , [Prompt Engineering Guide 2](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
+- **ImageKit**: [ImageKit Documentation](https://docs.imagekit.io/)
+- **MCP** : [ModelContextProtocol Documentation](https://modelcontextprotocol.io/docs/getting-started/intro)
