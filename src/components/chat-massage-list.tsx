@@ -516,25 +516,22 @@ export default function ChatMassageList({
               })}
 
               <div className="flex flex-row  gap-3">
-                <p>
-                  {message.metadata?.totalTokens && (
-                    <p className="text-sm text-zinc-500">
-                      Total Tokens: {message.metadata.totalTokens}
-                    </p>
-                  )}
-                </p>
-                <p>
-                  {message.metadata?.createdAt && (
-                    <p className="text-sm text-zinc-500">
-                      Created at:{" "}
-                      {new Date(message.metadata.createdAt).toLocaleString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                      })}
-                    </p>
-                  )}
-                </p>
+                {message.metadata?.totalTokens && (
+                  <p className="text-sm text-zinc-500">
+                    Total Tokens: {message.metadata.totalTokens}
+                  </p>
+                )}
+
+                {message.metadata?.createdAt && (
+                  <p className="text-sm text-zinc-500">
+                    Created at:{" "}
+                    {new Date(message.metadata.createdAt).toLocaleString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </p>
+                )}
               </div>
             </div>
           </div>
