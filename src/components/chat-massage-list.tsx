@@ -10,6 +10,7 @@ import { Image as ImageKitImage } from "@imagekit/next";
 import env from "../../env";
 import { ChatImageKitToolMessages } from "@/app/api/client-side-tools/route";
 import { ChatMCPMessage } from "@/app/api/mcp-tools/route";
+import { MyUIMessage } from "@/schemas/message-metadata.schema";
 export default function ChatMassageList({
   messages,
   messagesEndRef,
@@ -20,7 +21,9 @@ export default function ChatMassageList({
     | ChatSearchMessage[]
     | ChatImageToolMessages[]
     | ChatImageKitToolMessages[]
-    | ChatMCPMessage[];
+    | ChatMCPMessage[]
+    | MyUIMessage[];
+
   messagesEndRef?: Ref<HTMLDivElement>;
   useImageKit?: boolean;
 }) {
@@ -29,7 +32,11 @@ export default function ChatMassageList({
       {messages.map((message) => {
         const sources = message.parts?.filter(
           (part) => part.type === "source-url",
-        );
+        ) as {
+          url: string;
+          sourceId: string;
+          title: string;
+        }[];
         return (
           <div
             key={message.id}
@@ -507,6 +514,28 @@ export default function ChatMassageList({
                     }
                 }
               })}
+
+              <div className="flex flex-row  gap-3">
+                <p>
+                  {message.metadata?.totalTokens && (
+                    <p className="text-sm text-zinc-500">
+                      Total Tokens: {message.metadata.totalTokens}
+                    </p>
+                  )}
+                </p>
+                <p>
+                  {message.metadata?.createdAt && (
+                    <p className="text-sm text-zinc-500">
+                      Created at:{" "}
+                      {new Date(message.metadata.createdAt).toLocaleString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </p>
+                  )}
+                </p>
+              </div>
             </div>
           </div>
         );

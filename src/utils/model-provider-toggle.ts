@@ -12,22 +12,17 @@ export const modelProviderToggleChat = (
 ) => {
   switch (provider) {
     case "google":
-      // return google(model ?? "gemini-2.5-flash-lite");
-      return google(model ?? "gemini-3-flash-preview");
+      return google(model ?? "gemini-2.5-flash-lite");
     case "groq":
-      // return groq(model ?? "llama-3.1-8b-instant");
-      return groq(model ?? "qwen/qwen3-32b");
+      return groq(model ?? "llama-3.1-8b-instant");
     case "gateway":
-      // return gateway(model ?? "openai/gpt-4.1-nano");
-      return gateway(model ?? "openai/gpt-5-mini");
+      return gateway(model ?? "openai/gpt-4.1-nano");
     case "openai":
       return openai(model ?? "gpt-5-mini");
     case "ollama":
-      // return ollama(model ?? "qwen2.5:1.5b");
-      return ollama(model ?? "deepseek-r1:14b");
+      return ollama(model ?? "qwen2.5:1.5b");
     case "openrouter":
     default:
-      // return openRouter.chat(model ?? "openai/gpt-4.1-nano");
       return openRouter.chat(model ?? "qwen/qwen3-vl-30b-a3b-thinking");
   }
 };

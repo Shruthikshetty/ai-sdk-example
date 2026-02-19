@@ -78,6 +78,10 @@ const links = [
     href: "/ui/reasoning",
     label: "19.chat with reasoning",
   },
+  {
+    href: "/ui/message-metadata",
+    label: "20.Message Metadata",
+  },
 ];
 
 // main landing screen
