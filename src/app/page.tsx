@@ -82,6 +82,10 @@ const links = [
     href: "/ui/message-metadata",
     label: "20.Message Metadata",
   },
+  {
+    href: "/ui/provider-management",
+    label: "21.Provider Management",
+  },
 ];
 
 // main landing screen
